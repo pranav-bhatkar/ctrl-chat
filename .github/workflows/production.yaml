@@ -56,7 +56,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        run: cd ../.. && turbo run build --filter=web
+        run: turbo run build --filter=web
 
       - name: Deploy Project Artifacts to Vercel
         id: preview
