@@ -1,4 +1,5 @@
 import "@ctrl-chat/ui/globals.css";
+import { cn } from "@ctrl-chat/ui/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -16,7 +17,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={cn(inter.className, "dark")}>{children}</body>
     </html>
   );
 }
