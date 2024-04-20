@@ -17,7 +17,9 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "dark")}>{children}</body>
+      <body className={cn(inter.className, "dark no-scrollbars")}>
+        {children}
+      </body>
     </html>
   );
 }
