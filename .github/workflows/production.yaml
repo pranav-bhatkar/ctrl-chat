@@ -7,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - "packages/web/**"
+      - "apps/web/**"
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
