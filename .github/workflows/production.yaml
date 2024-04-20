@@ -7,7 +7,8 @@ on:
     branches:
       - main
     paths:
-      - "apps/web/**"
+      - "apps/web/**/*"
+      - ".github/workflows/production.yaml"
 jobs:
   Deploy-Production:
     runs-on: ubuntu-latest
