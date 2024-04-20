@@ -46,6 +46,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
+      - name: Install Turbo-cli
+        run: pnpm add -g turbo
+
       - name: Install Vercel CLI
         run: pnpm add -g vercel@latest
 
