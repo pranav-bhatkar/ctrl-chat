@@ -7,7 +7,8 @@ import {
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 import { Input, PaperPlaneIcon } from "@ctrl-chat/ui/components/ui/input";
 import { cn } from "@ctrl-chat/ui/lib/utils";
-import { Paperclip, PlusIcon, Search } from "lucide-react";
+import { Search, Image, File, Laugh } from "lucide-react";
+import { EmojiPicker } from "@ctrl-chat/ui/components/ui/emoji-picker";
 
 import React from "react";
 
@@ -162,10 +163,13 @@ function page() {
           }}
           className="flex w-full items-center space-x-2"
         >
+          <EmojiPicker onChange={(emoji) => setInput(input + emoji)} />
+
           <Button variant="outline" size="icon">
-            <Paperclip className="h-4 w-4" />
+            <Image className="h-4 w-4" />
             <span className="sr-only">Add Attachment</span>
           </Button>
+
           <Input
             id="message"
             placeholder="Type your message..."
