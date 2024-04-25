@@ -11,6 +11,12 @@ import { Search, Image, File, Laugh } from "lucide-react";
 import { EmojiPicker } from "@ctrl-chat/ui/components/ui/emoji-picker";
 
 import React from "react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ctrl-chat/ui/components/ui/tooltip";
 
 function page() {
   const [messages, setMessages] = React.useState([
@@ -165,10 +171,19 @@ function page() {
         >
           <EmojiPicker onChange={(emoji) => setInput(input + emoji)} />
 
-          <Button variant="outline" size="icon">
-            <Image className="h-4 w-4" />
-            <span className="sr-only">Add Attachment</span>
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <Image className="h-4 w-4" />
+                  <span className="sr-only">Add Attachment</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add Photos & videos</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
           <Input
             id="message"

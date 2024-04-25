@@ -9,6 +9,12 @@ import { Laugh } from "lucide-react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
 import { Button } from "@ctrl-chat/ui/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ctrl-chat/ui/components/ui/tooltip";
 
 interface EmojiPickerProps {
   onChange: (value: string) => void;
@@ -17,10 +23,19 @@ interface EmojiPickerProps {
 export const EmojiPicker = ({ onChange }: EmojiPickerProps) => {
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="outline" size="icon" type="button">
-          <Laugh className="h-4 w-4" />
-        </Button>
+      <PopoverTrigger>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <Button variant="outline" size="icon" type="button">
+                <Laugh className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Add Emoji</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </PopoverTrigger>
       <PopoverContent className="w-full">
         <Picker
