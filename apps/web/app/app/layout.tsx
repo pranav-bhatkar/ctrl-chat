@@ -81,7 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div className="flex-1 ">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 py-4 gap-4">
                   {Array.from({ length: 10 }).map((_, index) => (
-                    <ChatButton key={index} />
+                    <ChatButton key={index} index={index} />
                   ))}
                 </nav>
               </div>
@@ -98,17 +98,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </header>
         <main className="grid w-full md:grid-cols-[273px_1fr] lg:grid-cols-[333px_1fr]">
           <div className=""></div>
-          <div className="">{children}</div>
+          <div>{children}</div>
         </main>
       </div>
     </div>
   );
 }
 
-function ChatButton() {
+function ChatButton({ index }: { index: number }) {
   return (
     <Link
-      href="/app/chat/1"
+      href={"/app/chat/" + index}
       className={cn(
         "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
         "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",

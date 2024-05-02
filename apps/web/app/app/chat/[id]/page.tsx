@@ -7,10 +7,10 @@ import {
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 import { Input, PaperPlaneIcon } from "@ctrl-chat/ui/components/ui/input";
 import { cn } from "@ctrl-chat/ui/lib/utils";
-import { Search, Image, File, Laugh } from "lucide-react";
+import { Search, Image as ImageIcon } from "lucide-react";
 import { EmojiPicker } from "@ctrl-chat/ui/components/ui/emoji-picker";
-
-import React from "react";
+import Image from "next/image";
+import React, { useRef } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -70,60 +70,48 @@ function page() {
     },
     {
       role: "agent",
-      content: "Hi, how can I help you today?",
+      type: "image",
+      content: "https://via.placeholder.com/300",
     },
     {
       role: "user",
-      content: "Hey, I'm having trouble with my account.",
+      type: "image",
+      content: "https://via.placeholder.com/300",
     },
     {
       role: "agent",
-      content: "What seems to be the problem?",
+      type: "image",
+      content: "https://via.placeholder.com/300",
     },
     {
       role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
+      type: "image",
+      content: "https://via.placeholder.com/300",
     },
   ]);
+
+  React.useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  React.useEffect(() => {
+    scrollToBottom();
+  }, []);
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop =
+        messagesContainerRef.current.scrollHeight;
+    }
+  };
+
   const [input, setInput] = React.useState("");
   const inputLength = input.trim().length;
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+
   return (
-    <div className="flex flex-col relative">
+    <div className="flex flex-col relative ">
       <div className="fixed flex justify-between items-center border-b w-full py-3 px-4 bg-background">
         <div className="flex items-center space-x-4">
-          <Avatar>
+          <Avatar onClick={scrollToBottom}>
             <AvatarImage src="/avatars/01.png" alt="Image" />
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
@@ -138,20 +126,39 @@ function page() {
           </Button>
         </div>
       </div>
-      <div className="space-y-4  px-4  py-[90px]">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={cn(
-              "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
-              message.role === "user"
-                ? "ml-auto bg-primary text-primary-foreground"
-                : "bg-muted",
-            )}
-          >
-            {message.content}
-          </div>
-        ))}
+      <div ref={messagesContainerRef} className="space-y-4  px-4  py-[90px]">
+        {messages.map((message, index) =>
+          message.type === "image" ? (
+            <div
+              key={index}
+              className={cn(
+                "flex w-max max-w-[75%] flex-col gap-2 rounded-lg  text-sm overflow-hidden",
+                message.role === "user"
+                  ? "ml-auto bg-primary text-primary-foreground"
+                  : "bg-muted",
+              )}
+            >
+              <Image
+                src={message.content}
+                alt="Image"
+                width={300}
+                height={300}
+              />
+            </div>
+          ) : (
+            <div
+              key={index}
+              className={cn(
+                "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
+                message.role === "user"
+                  ? "ml-auto bg-primary text-primary-foreground"
+                  : "bg-muted",
+              )}
+            >
+              {message.content}
+            </div>
+          ),
+        )}
       </div>
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t ml-[53px] md:ml-[323px] lg:ml-[386px]">
         <form
@@ -175,7 +182,7 @@ function page() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button variant="outline" size="icon">
-                  <Image className="h-4 w-4" />
+                  <ImageIcon className="h-4 w-4" />
                   <span className="sr-only">Add Attachment</span>
                 </Button>
               </TooltipTrigger>

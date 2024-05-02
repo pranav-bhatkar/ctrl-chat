@@ -26,7 +26,7 @@ export const EmojiPicker = ({ onChange }: EmojiPickerProps) => {
       <PopoverTrigger>
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger>
+            <TooltipTrigger asChild>
               <Button variant="outline" size="icon" type="button">
                 <Laugh className="h-4 w-4" />
               </Button>
