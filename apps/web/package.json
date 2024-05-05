@@ -10,14 +10,18 @@
   },
   "dependencies": {
     "@ctrl-chat/ui": "workspace:*",
+    "@hookform/resolvers": "^3.3.4",
+    "date-fns": "^3.6.0",
     "next": "^14.0.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.4",
+    "zod": "^3.23.6"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^14.0.4",
     "@ctrl-chat/eslint-config": "workspace:*",
     "@ctrl-chat/typescript-config": "workspace:*",
+    "@next/eslint-plugin-next": "^14.0.4",
     "@types/eslint": "^8.56.1",
     "@types/node": "^20.10.6",
     "@types/react": "^18.2.46",
