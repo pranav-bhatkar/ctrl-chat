@@ -1,5 +1,6 @@
 import { cn } from "@ui/lib/utils";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
 export interface ChatMessage {
   id: number;
@@ -13,10 +14,16 @@ export interface ChatMessage {
 function ChatBubble({
   message,
   index,
+  setOpenLightbox,
 }: {
   message: ChatMessage;
   index: number;
+  setOpenLightbox: (index: number) => void;
 }) {
+  function handleOpenLightbox() {
+    setOpenLightbox(index);
+  }
+  // setOpenLightbox
   if (message.type === "image") {
     return (
       <div
@@ -42,11 +49,12 @@ function ChatBubble({
             <p className="text-white">Error</p>
           </div>
         ) : (
-          <img
+          <Image
+            onClick={handleOpenLightbox}
             src={message.content}
             alt="Image"
-            // fill
-            className="w-full h-full object-cover"
+            fill
+            className="w-full h-full object-cover cursor-pointer"
             // style={{ objectFit: "cover" }}
             // width={300}
             // height={300}

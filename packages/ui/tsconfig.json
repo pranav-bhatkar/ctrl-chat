@@ -2,10 +2,12 @@
   "extends": "@ctrl-chat/typescript-config/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "paths": {
-      "@ui/*": ["./src/*"],
-    },
+      "@ui/*": ["./src/*"]
+    }
   },
   "include": ["src"],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }

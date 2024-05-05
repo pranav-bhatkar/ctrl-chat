@@ -1,19 +1,12 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarDays, ArrowDownNarrowWideIcon, Check } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@ctrl-chat/ui/lib/utils";
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 import { Calendar } from "@ctrl-chat/ui/components/ui/calendar";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@ctrl-chat/ui/components/ui/command";
 import {
   Form,
   FormControl,
@@ -31,18 +24,6 @@ import {
 } from "@ctrl-chat/ui/components/ui/popover";
 // import { toast } from "@ctrl-chat/ui/components/ui/use-toast"
 
-const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
-];
-
 const accountFormSchema = z.object({
   name: z
     .string()
@@ -54,9 +35,6 @@ const accountFormSchema = z.object({
     }),
   dob: z.date({
     required_error: "A date of birth is required.",
-  }),
-  language: z.string({
-    required_error: "Please select a language.",
   }),
 });
 
@@ -73,7 +51,6 @@ export function AccountForm() {
     resolver: zodResolver(accountFormSchema),
     defaultValues,
   });
-
   function onSubmit(data: AccountFormValues) {
     // toast({
     //   title: "You submitted the following values:",
@@ -145,68 +122,6 @@ export function AccountForm() {
               </Popover>
               <FormDescription>
                 Your date of birth is used to calculate your age.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="language"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Language</FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-[200px] justify-between",
-                        !field.value && "text-muted-foreground",
-                      )}
-                    >
-                      {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value,
-                          )?.label
-                        : "Select language"}
-                      <ArrowDownNarrowWideIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search language..." />
-                    <CommandEmpty>No language found.</CommandEmpty>
-                    <CommandGroup>
-                      {languages.map((language) => (
-                        <CommandItem
-                          value={language.label}
-                          key={language.value}
-                          onSelect={() => {
-                            form.setValue("language", language.value);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              language.value === field.value
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                          sa
-                          {/* {language.label} */}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <FormDescription>
-                This is the language that will be used in the dashboard.
               </FormDescription>
               <FormMessage />
             </FormItem>
