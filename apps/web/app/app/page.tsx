@@ -1,135 +1,94 @@
-"use client";
-import React, { useRef } from "react";
-import Image from "next/image";
-import { cn } from "@ctrl-chat/ui/lib/utils";
+import { MessageCircle, Settings, Triangle, UserCircle } from "lucide-react";
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 
-function page() {
-  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
-  const [messages, setMessages] = React.useState([
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      type: "image",
-      content: "https://via.placeholder.com/300",
-    },
-    {
-      role: "user",
-      type: "image",
-      content: "https://via.placeholder.com/300",
-    },
-    {
-      role: "agent",
-      type: "image",
-      content: "https://via.placeholder.com/300",
-    },
-    {
-      role: "user",
-      type: "image",
-      content: "https://via.placeholder.com/300",
-    },
-  ]);
-  const scrollToBottom = () => {
-    if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
-    }
-  };
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@ctrl-chat/ui/components/ui/tooltip";
+import Link from "next/link";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@ctrl-chat/ui/components/ui/avatar";
+import { cn } from "@ctrl-chat/ui/lib/utils";
+
+export default function page() {
   return (
-    <>
-      <Button
-        onClick={() => {
-          scrollToBottom();
-        }}
-      >
-        Clear
-      </Button>
-      <div
-        ref={messagesContainerRef}
-        className="space-y-4  px-4 h-screen  py-[90px]"
-      >
-        {messages.map((message, index) =>
-          message.type === "image" ? (
-            <div
-              key={index}
-              className={cn(
-                "flex w-max max-w-[75%] flex-col gap-2 rounded-lg  text-sm overflow-hidden",
-                message.role === "user"
-                  ? "ml-auto bg-primary text-primary-foreground"
-                  : "bg-muted",
-              )}
-            >
-              <Image
-                src={message.content}
-                alt="Image"
-                width={300}
-                height={300}
-              />
+    <div className="grid relative  w-full">
+      <TooltipProvider>
+        <aside className="inset-y fixed flex h-full top-0 z-20 ">
+          <div className="hidden border-r md:block min-h-[calc(100vh-53px)] overflow-scroll no-scrollbar mt-[53px]">
+            <div className="flex md:w-[270px] lg:w-[333px] max-h-screen flex-col gap-2">
+              <div className="flex-1 ">
+                <nav className="grid items-start px-2 text-sm font-medium lg:px-4 py-4 gap-4">
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <ChatButton key={index} />
+                  ))}
+                </nav>
+              </div>
             </div>
-          ) : (
-            <div
-              key={index}
-              className={cn(
-                "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
-                message.role === "user"
-                  ? "ml-auto bg-primary text-primary-foreground"
-                  : "bg-muted",
-              )}
-            >
-              {message.content}
+          </div>
+        </aside>
+      </TooltipProvider>
+
+      <div className="flex flex-col mt-[53px]">
+        <main className="grid w-full md:grid-cols-[273px_1fr] lg:grid-cols-[333px_1fr]">
+          <div className=""></div>
+          <div className="h-[calc(100vh-200px)] flex justify-center items-center">
+            {/* show text to select chat to continue */}
+            <div className="flex flex-col justify-center items-center">
+              <p className="text-lg font-semibold">Select a chat to continue</p>
+
+              <div className="mt-4">
+                <Button variant="default" size="lg">
+                  Start a new chat
+                </Button>
+
+                <Button variant="outline" size="lg" className="ml-4">
+                  Join a chat
+                </Button>
+              </div>
             </div>
-          ),
-        )}
+          </div>
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 
-export default page;
+function ChatButton() {
+  return (
+    <Link
+      href="/app/chat/1"
+      className={cn(
+        "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
+        "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",
+        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50",
+      )}
+    >
+      <div className="flex justify-start items-center gap-4">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <div className="">
+          <h1 className="text-sm font-semibold" aria-label="username">
+            Pranit Adgokar
+          </h1>
+          <p
+            className="text-xs text-muted-foreground"
+            aria-label="last message..."
+          >
+            last message...
+          </p>
+        </div>
+      </div>
+      <div className="self-start">
+        <p className="text-xs text-muted-foreground">10:30 AM</p>
+      </div>
+    </Link>
+  );
+}

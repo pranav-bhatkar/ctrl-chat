@@ -7,123 +7,120 @@ import {
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 import { Input, PaperPlaneIcon } from "@ctrl-chat/ui/components/ui/input";
 import { cn } from "@ctrl-chat/ui/lib/utils";
-import { Search, Image, File, Laugh } from "lucide-react";
+import { Search, Image as ImageIcon, Loader2 } from "lucide-react";
 import { EmojiPicker } from "@ctrl-chat/ui/components/ui/emoji-picker";
-
-import React from "react";
+import Image from "next/image";
+import React, { useRef } from "react";
+import { toast } from "sonner";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@ctrl-chat/ui/components/ui/tooltip";
+import ChatBubble from "@ctrl-chat/ui/components/shared/chat-bubble";
 
 function page() {
-  const [messages, setMessages] = React.useState([
+  const [messages, setMessages] = React.useState<
     {
+      id: number;
+      role: "agent" | "user";
+      content: string;
+      type: "image" | "text";
+      status: "sent" | "delivered" | "read";
+      state?: "loading" | "loaded" | "error" | "uploading" | "uploaded";
+    }[]
+  >([
+    {
+      id: 0,
       role: "agent",
+      status: "read",
+      type: "text",
       content: "Hi, how can I help you today?",
     },
     {
+      id: 1,
       role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
+      type: "text",
+      status: "read",
       content: "I can't log in.",
     },
     {
+      id: 2,
       role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
-    },
-    {
-      role: "agent",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      role: "user",
-      content: "Hey, I'm having trouble with my account.",
-    },
-    {
-      role: "agent",
-      content: "What seems to be the problem?",
-    },
-    {
-      role: "user",
-      content: "I can't log in.",
+      type: "image",
+      status: "delivered",
+      state: "loaded",
+      content: "https://via.placeholder.com/300",
     },
   ]);
+
+  React.useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+  React.useEffect(() => {
+    scrollToBottom();
+  }, []);
+  const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      window.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  };
+
   const [input, setInput] = React.useState("");
   const inputLength = input.trim().length;
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
+
+  async function handleImage() {
+    const file = await new Promise<File | undefined>((resolve) => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.onchange = () => {
+        if (input.files && input.files.length > 0) {
+          resolve(input?.files[0]);
+        }
+      };
+      input.click();
+    });
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
+    const reader = new FileReader();
+    const messageId = messages.length + 1;
+    reader.onload = () => {
+      setMessages([
+        ...messages,
+        {
+          id: messageId,
+          role: "user",
+          type: "image",
+          state: "uploading",
+          status: "sent",
+          content: reader.result as string,
+        },
+      ]);
+    };
+    setTimeout(() => {
+      setMessages((messages) =>
+        messages.map((message) =>
+          message.id === messageId
+            ? { ...message, state: "uploaded" }
+            : message,
+        ),
+      );
+    }, 2000);
+    reader.readAsDataURL(file);
+  }
   return (
-    <div className="flex flex-col relative">
-      <div className="fixed flex justify-between items-center border-b w-full py-3 px-4 bg-background">
+    <div className="flex flex-col relative ">
+      <div className="fixed z-10 flex justify-between items-center border-b w-full py-3 px-4 bg-background">
         <div className="flex items-center space-x-4">
-          <Avatar>
+          <Avatar onClick={scrollToBottom}>
             <AvatarImage src="/avatars/01.png" alt="Image" />
             <AvatarFallback>OM</AvatarFallback>
           </Avatar>
@@ -138,19 +135,9 @@ function page() {
           </Button>
         </div>
       </div>
-      <div className="space-y-4  px-4  py-[90px]">
+      <div ref={messagesContainerRef} className="space-y-4  px-4  py-[90px]">
         {messages.map((message, index) => (
-          <div
-            key={index}
-            className={cn(
-              "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
-              message.role === "user"
-                ? "ml-auto bg-primary text-primary-foreground"
-                : "bg-muted",
-            )}
-          >
-            {message.content}
-          </div>
+          <ChatBubble message={message} index={index} />
         ))}
       </div>
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t ml-[53px] md:ml-[323px] lg:ml-[386px]">
@@ -161,7 +148,10 @@ function page() {
             setMessages([
               ...messages,
               {
+                id: messages.length + 1,
                 role: "user",
+                type: "text",
+                status: "sent",
                 content: input,
               },
             ]);
@@ -174,8 +164,8 @@ function page() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon">
-                  <Image className="h-4 w-4" />
+                <Button variant="outline" size="icon" onClick={handleImage}>
+                  <ImageIcon className="h-4 w-4" />
                   <span className="sr-only">Add Attachment</span>
                 </Button>
               </TooltipTrigger>

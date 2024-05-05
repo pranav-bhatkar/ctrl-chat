@@ -34,8 +34,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     size="icon"
                     className="rounded-lg bg-muted"
                     aria-label="Chat"
+                    asChild
                   >
-                    <MessageCircle className="size-5" />
+                    <Link href="/app">
+                      <MessageCircle className="size-5" />
+                    </Link>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={5}>
@@ -51,27 +54,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     size="icon"
                     className="mt-auto rounded-lg"
                     aria-label="settings"
+                    asChild
                   >
-                    <Settings className="size-5" />
+                    <Link href="/app/settings">
+                      <Settings className="size-5" />
+                    </Link>
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right" sideOffset={5}>
                   Settings
-                </TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="mt-auto rounded-lg"
-                    aria-label="Account"
-                  >
-                    <UserCircle className="size-5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right" sideOffset={5}>
-                  Account
                 </TooltipContent>
               </Tooltip>
             </nav>
