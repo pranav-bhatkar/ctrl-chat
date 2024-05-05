@@ -91,10 +91,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ChatButton() {
+function ChatButton({ index }: { index: number }) {
   return (
     <Link
-      href="/app/chat/1"
+      href={"/app/chat/" + index}
       className={cn(
         "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
         "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",
