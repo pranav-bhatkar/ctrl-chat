@@ -76,6 +76,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Tooltip>
             </nav>
           </div>
+          <div className="hidden border-r md:block min-h-[calc(100vh-53px)] overflow-scroll no-scrollbar mt-[53px]">
+            <div className="flex md:w-[270px] lg:w-[333px] max-h-screen flex-col gap-2">
+              <div className="flex-1 ">
+                <nav className="grid items-start px-2 text-sm font-medium lg:px-4 py-4 gap-4">
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <ChatButton key={index} />
+                  ))}
+                </nav>
+              </div>
+            </div>
+          </div>
         </aside>
       </TooltipProvider>
 
@@ -85,16 +96,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <span className="text-primary font-bold">Ctrl</span> Chat
           </h1>
         </header>
-        <main>{children}</main>
+        <main className="grid w-full md:grid-cols-[273px_1fr] lg:grid-cols-[333px_1fr]">
+          <div className=""></div>
+          <div className="">{children}</div>
+        </main>
       </div>
     </div>
   );
 }
 
-function ChatButton({ index }: { index: number }) {
+function ChatButton() {
   return (
     <Link
-      href={"/app/chat/" + index}
+      href="/app/chat/1"
       className={cn(
         "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
         "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",
