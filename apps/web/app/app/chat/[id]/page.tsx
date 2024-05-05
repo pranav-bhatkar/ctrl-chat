@@ -11,6 +11,7 @@ import { Search, Image as ImageIcon } from "lucide-react";
 import { EmojiPicker } from "@ctrl-chat/ui/components/ui/emoji-picker";
 import Image from "next/image";
 import React, { useRef } from "react";
+import { toast } from "sonner";
 import {
   Tooltip,
   TooltipContent,
@@ -98,8 +99,10 @@ function page() {
   }, []);
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
-      messagesContainerRef.current.scrollTop =
-        messagesContainerRef.current.scrollHeight;
+      window.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -107,9 +110,38 @@ function page() {
   const inputLength = input.trim().length;
   const messagesContainerRef = useRef<HTMLDivElement | null>(null);
 
+  async function handleImage() {
+    const file = await new Promise<File | undefined>((resolve) => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.onchange = () => {
+        if (input.files && input.files.length > 0) {
+          resolve(input?.files[0]);
+        }
+      };
+      input.click();
+    });
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setMessages([
+        ...messages,
+        {
+          role: "user",
+          type: "image",
+          content: reader.result as string,
+        },
+      ]);
+    };
+    reader.readAsDataURL(file);
+  }
   return (
     <div className="flex flex-col relative ">
-      <div className="fixed flex justify-between items-center border-b w-full py-3 px-4 bg-background">
+      <div className="fixed z-10 flex justify-between items-center border-b w-full py-3 px-4 bg-background">
         <div className="flex items-center space-x-4">
           <Avatar onClick={scrollToBottom}>
             <AvatarImage src="/avatars/01.png" alt="Image" />
@@ -132,7 +164,7 @@ function page() {
             <div
               key={index}
               className={cn(
-                "flex w-max max-w-[75%] flex-col gap-2 rounded-lg  text-sm overflow-hidden",
+                "max-w-[75%] relative rounded-lg overflow-hidden w-[300px] h-[300px]",
                 message.role === "user"
                   ? "ml-auto bg-primary text-primary-foreground"
                   : "bg-muted",
@@ -141,8 +173,11 @@ function page() {
               <Image
                 src={message.content}
                 alt="Image"
-                width={300}
-                height={300}
+                fill
+                className="w-full h-full object-cover"
+                // style={{ objectFit: "cover" }}
+                // width={300}
+                // height={300}
               />
             </div>
           ) : (
@@ -181,7 +216,7 @@ function page() {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" onClick={handleImage}>
                   <ImageIcon className="h-4 w-4" />
                   <span className="sr-only">Add Attachment</span>
                 </Button>

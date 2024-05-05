@@ -1,3 +1,4 @@
+import { Toaster } from "@ctrl-chat/ui/components/ui/sonner";
 import "@ctrl-chat/ui/globals.css";
 import { cn } from "@ctrl-chat/ui/lib/utils";
 import type { Metadata } from "next";
@@ -17,7 +18,10 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body className={cn(inter.className, "dark ")}>{children}</body>
+      <body className={cn(inter.className, "dark ")}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
