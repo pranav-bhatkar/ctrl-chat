@@ -81,37 +81,3 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
-function ChatButton({ index }: { index: number }) {
-  return (
-    <Link
-      href={"/app/chat/" + index}
-      className={cn(
-        "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
-        "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",
-        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50",
-      )}
-    >
-      <div className="flex justify-start items-center gap-4">
-        <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <div className="">
-          <h1 className="text-sm font-semibold" aria-label="username">
-            Pranit Adgokar
-          </h1>
-          <p
-            className="text-xs text-muted-foreground"
-            aria-label="last message..."
-          >
-            last message...
-          </p>
-        </div>
-      </div>
-      <div className="self-start">
-        <p className="text-xs text-muted-foreground">10:30 AM</p>
-      </div>
-    </Link>
-  );
-}

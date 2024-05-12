@@ -29,7 +29,7 @@ function ChatBubble({
       <div
         key={index}
         className={cn(
-          "max-w-[75%] relative rounded-lg overflow-hidden w-[300px] h-[300px] transition-all duration-300 ease-in-out",
+          "max-w-[55%] relative rounded-lg overflow-hidden w-[300px] aspect-square transition-all duration-300 ease-in-out",
           message.role === "user"
             ? "ml-auto bg-primary text-primary-foreground"
             : "bg-muted",

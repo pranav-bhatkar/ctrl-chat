@@ -24,8 +24,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="flex md:w-[270px] lg:w-[333px] max-h-screen flex-col gap-2">
               <div className="flex-1 ">
                 <nav className="grid items-start px-2 text-sm font-medium lg:px-4 py-4 gap-4">
-                  {Array.from({ length: 10 }).map((_, index) => (
-                    <ChatButton key={index} />
+                  {Array.from({ length: 2 }).map((_, index) => (
+                    <ChatButton key={index} index={index} />
                   ))}
                 </nav>
               </div>
@@ -44,10 +44,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function ChatButton() {
+function ChatButton({ index }: { index: number }) {
   return (
     <Link
-      href="/app/chat/1"
+      href={`/app/chat/${index + 1}`}
       className={cn(
         "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
         "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",
@@ -56,12 +56,21 @@ function ChatButton() {
     >
       <div className="flex justify-start items-center gap-4">
         <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage
+            src={
+              index % 2 === 0
+                ? "https://github.com/pranav-bhatkar.png"
+                : "https://github.com/PranitAdgokar.png"
+            }
+          />
+          <AvatarFallback>
+            <UserCircle />
+          </AvatarFallback>
         </Avatar>
         <div className="">
           <h1 className="text-sm font-semibold" aria-label="username">
-            Pranit Adgokar
+            {/* randomly show Pranav bhatkar or Pranit Adgokar */}
+            {index % 2 === 0 ? "Pranav Bhatkar" : "Pranit Adgokar"}
           </h1>
           <p
             className="text-xs text-muted-foreground"

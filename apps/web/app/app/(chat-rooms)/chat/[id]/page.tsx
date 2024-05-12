@@ -6,10 +6,13 @@ import {
 } from "@ctrl-chat/ui/components/ui/avatar";
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 import { Input, PaperPlaneIcon } from "@ctrl-chat/ui/components/ui/input";
-import { cn } from "@ctrl-chat/ui/lib/utils";
-import { Search, Image as ImageIcon, Loader2 } from "lucide-react";
+import {
+  Search,
+  Image as ImageIcon,
+  UserCircle,
+  CalendarDays,
+} from "lucide-react";
 import { EmojiPicker } from "@ctrl-chat/ui/components/ui/emoji-picker";
-import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -19,7 +22,11 @@ import {
   TooltipTrigger,
 } from "@ctrl-chat/ui/components/ui/tooltip";
 import ChatBubble from "@ctrl-chat/ui/components/shared/chat-bubble";
-
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@ctrl-chat/ui/components/ui/hover-card";
 import slides from "./slides";
 import LightboxModal from "@ctrl-chat/ui/components/shared/LightBox";
 function page() {
@@ -32,36 +39,15 @@ function page() {
       status: "sent" | "delivered" | "read";
       state?: "loading" | "loaded" | "error" | "uploading" | "uploaded";
     }[]
-  >([
-    {
-      id: 0,
-      role: "agent",
-      status: "read",
-      type: "text",
-      content: "Hi, how can I help you today?",
-    },
-    {
-      id: 1,
-      role: "user",
-      type: "text",
-      status: "read",
-      content: "I can't log in.",
-    },
-    {
-      id: 2,
-      role: "agent",
-      type: "image",
-      status: "delivered",
-      state: "loaded",
-      content: "https://via.placeholder.com/300",
-    },
-  ]);
+  >([]);
 
   React.useEffect(() => {
     scrollToBottom();
   }, [messages]);
   React.useEffect(() => {
     scrollToBottom();
+    const messages = JSON.parse(localStorage.getItem("messages") || "[]");
+    setMessages(messages);
   }, []);
   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
@@ -106,6 +92,13 @@ function page() {
           content: reader.result as string,
         },
       ]);
+      saveMessageToLocalStorage({
+        id: messageId,
+        role: "user",
+        type: "image",
+        status: "sent",
+        content: reader.result as string,
+      });
     };
     setTimeout(() => {
       setMessages((messages) =>
@@ -125,6 +118,19 @@ function page() {
     setOpenLightbox(true);
     setSelectedImage(selectedImage);
   };
+  const isMobile = window.matchMedia("(max-width: 640px)").matches;
+  function saveMessageToLocalStorage(message: {
+    id: number;
+    role: "agent" | "user";
+    content: string;
+    type: "image" | "text";
+    status: "sent" | "delivered" | "read";
+    state?: "loading" | "loaded" | "error" | "uploading" | "uploaded";
+  }) {
+    const messages = JSON.parse(localStorage.getItem("messages") || "[]");
+    messages.push(message);
+    localStorage.setItem("messages", JSON.stringify(messages));
+  }
   return (
     <>
       <LightboxModal
@@ -135,55 +141,113 @@ function page() {
         onCloseRequest={() => setOpenLightbox(false)}
       />
       <div className="flex flex-col relative ">
-        <div className="fixed z-10 flex justify-between items-center border-b w-full py-3 px-4 bg-background">
-          <div className="flex items-center space-x-4">
-            <Avatar onClick={scrollToBottom}>
-              <AvatarImage src="/avatars/01.png" alt="Image" />
-              <AvatarFallback>OM</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="text-sm font-medium leading-none">Sofia Davis</p>
-              <p className="text-sm text-muted-foreground">m@example.com</p>
+        <HoverCard>
+          <div className="fixed z-10 flex justify-between items-center border-b w-full py-3 px-4 bg-background">
+            <div className="flex items-center space-x-4">
+              <HoverCardTrigger asChild>
+                <div className="flex justify-center items-center gap-2 ">
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      src="https://github.com/pranav-bhatkar.png"
+                      alt="Image"
+                    />
+                    <AvatarFallback>
+                      <UserCircle />
+                    </AvatarFallback>
+                  </Avatar>
+
+                  <div>
+                    <p className="text-sm font-medium leading-none cursor-pointer">
+                      Pranav Bhatkar
+                    </p>
+                    <p className="text-sm text-muted-foreground cursor-pointer">
+                      work@pranavbhatkar.me
+                    </p>
+                  </div>
+                </div>
+              </HoverCardTrigger>
+            </div>
+            <div className="">
+              <Button variant="outline" size="icon">
+                <Search className="size-5" />
+              </Button>
             </div>
           </div>
-          <div className="">
-            <Button variant="outline" size="icon">
-              <Search className="size-5" />
-            </Button>
-          </div>
-        </div>
-        <div ref={messagesContainerRef} className="space-y-4  px-4  py-[90px]">
-          {messages.map((message, index) => (
-            <ChatBubble
-              message={message}
-              index={index}
-              setOpenLightbox={(index) => {
-                console.log("index", index);
-                handleOpenLightbox(index);
-              }}
-            />
-          ))}
+          <HoverCardContent className="w-80">
+            <div className="flex justify-between space-x-4">
+              <Avatar>
+                <AvatarImage src="https://github.com/pranav-bhatkar.png" />
+                <AvatarFallback>VC</AvatarFallback>
+              </Avatar>
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold">@pranavbhatkar</h4>
+                <p className="text-sm">
+                  Pranav Bhatkar is a software engineer at PPS Energy Solutions.
+                </p>
+                <div className="flex items-center pt-2">
+                  <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+                  <span className="text-xs text-muted-foreground">
+                    Joined April 2024
+                  </span>
+                </div>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+        <div ref={messagesContainerRef} className="space-y-4 px-4 py-[90px]">
+          {messages.length === 0 ? (
+            <div className="flex items-center justify-center h-[50vh]">
+              <p className="text-muted-foreground">No messages yet</p>
+            </div>
+          ) : (
+            messages.map((message, index) => (
+              <ChatBubble
+                message={message}
+                index={index}
+                setOpenLightbox={(index) => {
+                  console.log("index", index);
+                  handleOpenLightbox(index);
+                }}
+              />
+            ))
+          )}
         </div>
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-background border-t ml-[53px] md:ml-[323px] lg:ml-[386px]">
           <form
             onSubmit={(event) => {
               event.preventDefault();
               if (inputLength === 0) return;
-              setMessages([
-                ...messages,
-                {
-                  id: messages.length + 1,
-                  role: "user",
-                  type: "text",
-                  status: "sent",
-                  content: input,
-                },
-              ]);
+              const message: {
+                id: number;
+                role: "agent" | "user";
+                content: string;
+                type: "image" | "text";
+                status: "sent" | "delivered" | "read";
+                state?:
+                  | "loading"
+                  | "loaded"
+                  | "error"
+                  | "uploading"
+                  | "uploaded";
+              } = {
+                id: messages.length + 1,
+                role: "user",
+                type: "text",
+                status: "sent",
+                content: input,
+              };
+              setMessages([...messages, message]);
+              saveMessageToLocalStorage(message);
               setInput("");
             }}
             className="flex w-full items-center space-x-2"
           >
-            <EmojiPicker onChange={(emoji) => setInput(input + emoji)} />
+            {
+              // if it is a mobile device, don't show emoji picker
+              !isMobile && (
+                <EmojiPicker onChange={(emoji) => setInput(input + emoji)} />
+              )
+            }
 
             <TooltipProvider>
               <Tooltip>
