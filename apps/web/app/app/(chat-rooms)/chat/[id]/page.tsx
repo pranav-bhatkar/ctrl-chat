@@ -252,7 +252,12 @@ function page() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" onClick={handleImage}>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    type="button"
+                    onClick={handleImage}
+                  >
                     <ImageIcon className="h-4 w-4" />
                     <span className="sr-only">Add Attachment</span>
                   </Button>
