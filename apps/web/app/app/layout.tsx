@@ -76,7 +76,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <span className="text-primary font-bold">Ctrl</span> Chat
           </h1>
         </header>
-        <main>{children}</main>
+        {children}
       </div>
     </div>
   );

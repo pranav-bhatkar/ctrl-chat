@@ -12,6 +12,7 @@
     "@ctrl-chat/ui": "workspace:*",
     "@hookform/resolvers": "^3.3.4",
     "date-fns": "^3.6.0",
+    "framer-motion": "^11.2.2",
     "next": "^14.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

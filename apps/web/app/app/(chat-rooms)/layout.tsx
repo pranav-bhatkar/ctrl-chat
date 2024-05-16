@@ -17,7 +17,7 @@ import { cn } from "@ctrl-chat/ui/lib/utils";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid relative h-screen w-full">
+    <>
       <TooltipProvider>
         <aside className="inset-y fixed flex h-full top-0 z-20 ">
           <div className="hidden border-r md:block min-h-[calc(100vh-53px)] overflow-scroll no-scrollbar mt-[53px]">
@@ -34,13 +34,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </aside>
       </TooltipProvider>
 
-      <div className="flex flex-col ">
-        <main className="grid w-full md:grid-cols-[273px_1fr] lg:grid-cols-[333px_1fr]">
-          <div className=""></div>
-          <div className="">{children}</div>
-        </main>
-      </div>
-    </div>
+      <main className="grid w-full md:grid-cols-[273px_1fr] lg:grid-cols-[333px_1fr]">
+        <div className=""></div>
+        {children}
+      </main>
+    </>
   );
 }
 

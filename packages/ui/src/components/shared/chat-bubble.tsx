@@ -2,6 +2,7 @@ import { cn } from "@ui/lib/utils";
 import { CheckCheck, Loader2 } from "lucide-react";
 import Image from "next/image";
 import moment from "moment";
+import { motion } from "framer-motion";
 
 export interface ChatMessage {
   id: number;
@@ -16,10 +17,12 @@ function ChatBubble({
   message,
   index,
   setOpenLightbox,
+  messages,
 }: {
   message: ChatMessage;
   index: number;
   setOpenLightbox: (index: number) => void;
+  messages: ChatMessage[];
 }) {
   function handleOpenLightbox() {
     setOpenLightbox(index);
@@ -27,7 +30,26 @@ function ChatBubble({
   // setOpenLightbox
   if (message.type === "image") {
     return (
-      <div className="relative">
+      <motion.div
+        key={index}
+        layout
+        initial={{ opacity: 0, scale: 1, y: 50, x: 0 }}
+        animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+        exit={{ opacity: 0, scale: 1, y: 1, x: 0 }}
+        transition={{
+          opacity: { duration: 0.1 },
+          layout: {
+            type: "spring",
+            // bounce: 0.3,
+            duration: messages.indexOf(message) * 0.05 + 0.4,
+          },
+        }}
+        style={{
+          originX: 0.5,
+          originY: 0.5,
+        }}
+        className="relative"
+      >
         <div
           key={index}
           className={cn(
@@ -79,13 +101,32 @@ function ChatBubble({
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
   if (message.type === "text") {
     return (
-      <div className="relative">
+      <motion.div
+        key={index}
+        layout
+        initial={{ opacity: 0, scale: 1, y: 50, x: 0 }}
+        animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
+        exit={{ opacity: 0, scale: 1, y: 1, x: 0 }}
+        transition={{
+          opacity: { duration: 0.1 },
+          layout: {
+            type: "spring",
+            // bounce: 0.3,
+            duration: messages.indexOf(message) * 0.05 + 0.4,
+          },
+        }}
+        style={{
+          originX: 0.5,
+          originY: 0.5,
+        }}
+        className="relative"
+      >
         <div
           key={index}
           className={cn(
@@ -113,7 +154,7 @@ function ChatBubble({
             )}
           </div>
         </div>
-      </div>
+      </motion.div>
     );
   }
 }
