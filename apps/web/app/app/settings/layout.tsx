@@ -25,10 +25,6 @@ const sidebarNavItems = [
     title: "Notifications",
     href: "/app/settings/notifications",
   },
-  {
-    title: "Display",
-    href: "/app/settings/display",
-  },
 ];
 
 interface SettingsLayoutProps {
