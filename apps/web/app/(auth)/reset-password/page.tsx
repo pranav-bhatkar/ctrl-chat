@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 import {
   Card,
@@ -10,7 +8,6 @@ import {
 } from "@ctrl-chat/ui/components/ui/card";
 import { Input } from "@ctrl-chat/ui/components/ui/input";
 import { Label } from "@ctrl-chat/ui/components/ui/label";
-import {} from "lucide-react";
 import {
   InputOTP,
   InputOTPGroup,

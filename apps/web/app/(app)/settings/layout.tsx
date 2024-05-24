@@ -1,6 +1,5 @@
 import { Separator } from "@ctrl-chat/ui/components/ui/separator";
 import { Metadata } from "next";
-import Image from "next/image";
 import { SidebarNav } from "./components/sidebar-nav";
 
 export const metadata: Metadata = {

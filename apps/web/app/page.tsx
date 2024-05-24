@@ -25,7 +25,7 @@ function page() {
           </AlertDescription>
         </Alert>
         <Button asChild>
-          <Link href="/app">Continue</Link>
+          <Link href="/chats">Continue</Link>
         </Button>
       </div>
     </div>

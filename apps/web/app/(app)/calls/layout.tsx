@@ -1,12 +1,5 @@
-import { MessageCircle, Settings, Triangle, UserCircle } from "lucide-react";
-import { Button } from "@ctrl-chat/ui/components/ui/button";
+import { PhoneMissed, UserCircle } from "lucide-react";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@ctrl-chat/ui/components/ui/tooltip";
 import Link from "next/link";
 import {
   Avatar,
@@ -18,21 +11,19 @@ import { cn } from "@ctrl-chat/ui/lib/utils";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <TooltipProvider>
-        <aside className="inset-y fixed flex h-full top-0 z-20 ">
-          <div className="hidden border-r md:block min-h-[calc(100vh-53px)] overflow-scroll no-scrollbar mt-[53px]">
-            <div className="flex md:w-[270px] lg:w-[333px] max-h-screen flex-col gap-2">
-              <div className="flex-1 ">
-                <nav className="grid items-start px-2 text-sm font-medium lg:px-4 py-4 gap-4">
-                  {Array.from({ length: 2 }).map((_, index) => (
-                    <ChatButton key={index} index={index} />
-                  ))}
-                </nav>
-              </div>
+      <aside className="inset-y fixed flex h-full top-0 z-20 ">
+        <div className="hidden border-r md:block min-h-[calc(100vh-53px)] overflow-scroll no-scrollbar mt-[53px]">
+          <div className="flex md:w-[270px] lg:w-[333px] max-h-screen flex-col gap-2">
+            <div className="flex-1 ">
+              <nav className="grid items-start px-2 text-sm font-medium lg:px-4 py-4 gap-4">
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <ChatButton key={index} index={index} />
+                ))}
+              </nav>
             </div>
           </div>
-        </aside>
-      </TooltipProvider>
+        </div>
+      </aside>
 
       <main className="grid w-full md:grid-cols-[273px_1fr] lg:grid-cols-[333px_1fr]">
         <div className=""></div>
@@ -45,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 function ChatButton({ index }: { index: number }) {
   return (
     <Link
-      href={`/app/chat/${index + 1}`}
+      href={`/calls/${index + 1}`}
       className={cn(
         "bg-muted/40 px-4 py-2 rounded-md flex justify-between items-center",
         "hover:bg-muted transition-all duration-300 ease-in-out hover:shadow-md hover:ring-2 hover:ring-primary hover:ring-opacity-50",
@@ -74,7 +65,8 @@ function ChatButton({ index }: { index: number }) {
             className="text-xs text-muted-foreground"
             aria-label="last message..."
           >
-            last message...
+            <PhoneMissed className="size-3 inline" />
+            <span className="ml-1">Missed call</span>
           </p>
         </div>
       </div>

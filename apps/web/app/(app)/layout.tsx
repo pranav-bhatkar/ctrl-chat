@@ -1,11 +1,4 @@
-import {
-  Command,
-  MessageCircle,
-  Phone,
-  Settings,
-  Triangle,
-  UserCircle,
-} from "lucide-react";
+import { Command, MessageCircle, Phone, Settings } from "lucide-react";
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 
 import {
@@ -15,7 +8,6 @@ import {
   TooltipTrigger,
 } from "@ctrl-chat/ui/components/ui/tooltip";
 import Link from "next/link";
-import { cn } from "@ctrl-chat/ui/lib/utils";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -43,7 +35,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     aria-label="Chat"
                     asChild
                   >
-                    <Link href="/app">
+                    <Link href="/chats">
                       <MessageCircle className="size-5" />
                     </Link>
                   </Button>
@@ -61,7 +53,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     aria-label="Chat"
                     asChild
                   >
-                    <Link href="/app">
+                    <Link href="/calls">
                       <Phone className="size-5" />
                     </Link>
                   </Button>
@@ -81,7 +73,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     aria-label="settings"
                     asChild
                   >
-                    <Link href="/app/settings">
+                    <Link href="/settings">
                       <Settings className="size-5" />
                     </Link>
                   </Button>

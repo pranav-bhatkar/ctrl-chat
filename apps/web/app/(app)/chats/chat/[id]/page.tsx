@@ -30,7 +30,7 @@ import {
 import slides from "./slides";
 import LightboxModal from "@ctrl-chat/ui/components/shared/LightBox";
 import { cn } from "@ctrl-chat/ui/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 function page() {
   const [messages, setMessages] = React.useState<
