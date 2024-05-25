@@ -1,3 +1,4 @@
+"use client";
 import { Command, MessageCircle, Phone, Settings } from "lucide-react";
 import { Button } from "@ctrl-chat/ui/components/ui/button";
 
@@ -8,8 +9,11 @@ import {
   TooltipTrigger,
 } from "@ctrl-chat/ui/components/ui/tooltip";
 import Link from "next/link";
+import { cn } from "@ctrl-chat/ui/lib/utils";
+import { usePathname } from "next/navigation";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const pathName = usePathname();
   return (
     <div className="grid h-screen w-full pl-[53px]">
       <TooltipProvider>
@@ -31,7 +35,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-lg bg-muted"
+                    className={cn(
+                      "rounded-lg",
+                      pathName.includes("/chat") &&
+                        "bg-primary hover:bg-primary",
+                    )}
                     aria-label="Chat"
                     asChild
                   >
@@ -49,7 +57,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="rounded-lg "
+                    className={cn(
+                      "rounded-lg",
+                      pathName.includes("/calls") &&
+                        "bg-primary hover:bg-primary",
+                    )}
                     aria-label="Chat"
                     asChild
                   >
@@ -69,7 +81,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="mt-auto rounded-lg"
+                    className={cn(
+                      "rounded-lg",
+                      pathName.includes("/settings") &&
+                        "bg-primary hover:bg-primary",
+                    )}
                     aria-label="settings"
                     asChild
                   >
