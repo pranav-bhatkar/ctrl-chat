@@ -1,15 +1,15 @@
 import { cn } from "@ui/lib/utils";
-import { CheckCheck, Loader2 } from "lucide-react";
+import { CheckCheck, CheckIcon, Clock, Loader2 } from "lucide-react";
 import Image from "next/image";
 import moment from "moment";
 import { motion } from "framer-motion";
 
 export interface ChatMessage {
   id: number;
-  role: "agent" | "user";
   content: string;
   type: "image" | "text";
-  status: "sent" | "delivered" | "read";
+  sender: number;
+  status: "sent" | "delivered" | "read" | "sending";
   state?: "loading" | "loaded" | "error" | "uploading" | "uploaded" | undefined;
 }
 
@@ -18,9 +18,11 @@ function ChatBubble({
   index,
   setOpenLightbox,
   messages,
+  userId,
 }: {
   message: ChatMessage;
   index: number;
+  userId: number;
   setOpenLightbox: (index: number) => void;
   messages: ChatMessage[];
 }) {
@@ -54,7 +56,7 @@ function ChatBubble({
           key={index}
           className={cn(
             "max-w-[55%] relative rounded-lg overflow-hidden w-[300px] aspect-square transition-all duration-300 ease-in-out",
-            message.role === "user"
+            userId === message.sender
               ? "ml-auto bg-primary text-primary-foreground"
               : "bg-muted",
           )}
@@ -88,7 +90,7 @@ function ChatBubble({
         <div className="">
           {/* info */}
           <div className="flex items-center justify-end gap-1 text-xs text-muted px-1">
-            {message.role === "user" && (
+            {userId === message.sender && (
               <div className="flex items-center gap-1 py-1 ">
                 <p className="text-xs cursor-pointer text-muted-foreground">
                   {moment().format("hh:mm A")}
@@ -131,7 +133,7 @@ function ChatBubble({
           key={index}
           className={cn(
             "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm",
-            message.role === "user"
+            userId === message.sender
               ? "ml-auto bg-primary text-primary-foreground"
               : "bg-muted",
           )}
@@ -141,15 +143,23 @@ function ChatBubble({
         <div className="">
           {/* info */}
           <div className="flex items-center justify-end gap-1 text-xs text-muted px-1">
-            {message.role === "user" && (
+            {userId === message.sender && (
               <div className="flex items-center gap-1 py-1 ">
                 <p className="text-xs cursor-pointer text-muted-foreground">
                   {moment().format("hh:mm A")}
                 </p>
-                {/* <Clock className="w-4 h-4 text-muted-foreground" /> */}
-                {/* <CheckIcon className="w-4 h-4 text-muted-foreground" /> */}
-                {/* <CheckCheck className="w-4 h-4 text-muted-foreground" /> */}
-                <CheckCheck className="w-4 h-4 text-primary" />
+                {message.status === "sending" && (
+                  <Clock className="w-4 h-4 text-muted-foreground" />
+                )}
+                {message.status === "sent" && (
+                  <CheckIcon className="w-4 h-4 text-muted-foreground" />
+                )}
+                {message.status === "delivered" && (
+                  <CheckCheck className="w-4 h-4 text-muted-foreground" />
+                )}
+                {message.status === "read" && (
+                  <CheckCheck className="w-4 h-4 text-primary" />
+                )}
               </div>
             )}
           </div>

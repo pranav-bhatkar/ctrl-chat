@@ -23,8 +23,9 @@
     "@emoji-mart/data": "^1.1.2",
     "@emoji-mart/react": "^1.1.1",
     "emoji-mart": "^5.5.2",
-    "moment": "^2.30.1",
     "lucide-react": "^0.314.0",
+    "moment": "^2.30.1",
+    "next-themes": "^0.3.0",
     "sonner": "^1.4.41"
   }
 }

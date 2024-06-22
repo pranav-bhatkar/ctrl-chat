@@ -17,6 +17,8 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@ctrl-chat/ui/components/ui/radio-group";
+import { useTheme } from "next-themes";
+import { toast } from "sonner";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
@@ -26,19 +28,19 @@ const appearanceFormSchema = z.object({
 
 type AppearanceFormValues = z.infer<typeof appearanceFormSchema>;
 
-// This can come from your database or API.
-const defaultValues: Partial<AppearanceFormValues> = {
-  theme: "light",
-};
-
 export function AppearanceForm() {
+  const { setTheme, theme } = useTheme();
+  // This can come from your database or API.
+  const defaultValues: Partial<AppearanceFormValues> = {
+    theme: theme as AppearanceFormValues["theme"],
+  };
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
   });
-
   function onSubmit(data: AppearanceFormValues) {
-    alert(JSON.stringify(data, null, 2));
+    setTheme(data.theme);
+    toast.success("Theme updated successfully.");
   }
 
   return (

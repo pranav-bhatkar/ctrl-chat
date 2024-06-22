@@ -11,7 +11,7 @@ import { cn } from "@ctrl-chat/ui/lib/utils";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <aside className="inset-y fixed flex h-full top-0 z-20 ">
+      <aside className="inset-y fixed flex h-full top-0">
         <div className="hidden border-r md:block min-h-[calc(100vh-53px)] overflow-scroll no-scrollbar mt-[53px]">
           <div className="flex md:w-[270px] lg:w-[333px] max-h-screen flex-col gap-2">
             <div className="flex-1 ">

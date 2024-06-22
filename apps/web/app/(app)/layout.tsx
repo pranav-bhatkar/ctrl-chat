@@ -26,7 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 aria-label="Home"
                 className="focus:border-primary hover:border-primary"
               >
-                <Command className="size-5" />
+                <Command className="size-5 " />
               </Button>
             </div>
             <nav className="grid gap-2 p-2">
@@ -38,13 +38,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     className={cn(
                       "rounded-lg",
                       pathName.includes("/chat") &&
-                        "bg-primary hover:bg-primary",
+                        "bg-primary hover:bg-primary text-primary-foreground hover:text-primary-foreground",
                     )}
                     aria-label="Chat"
                     asChild
                   >
                     <Link href="/chats">
-                      <MessageCircle className="size-5" />
+                      <MessageCircle className="size-5 " />
                     </Link>
                   </Button>
                 </TooltipTrigger>
@@ -60,7 +60,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     className={cn(
                       "rounded-lg",
                       pathName.includes("/calls") &&
-                        "bg-primary hover:bg-primary",
+                        "bg-primary hover:bg-primary text-primary-foreground hover:text-primary-foreground",
                     )}
                     aria-label="Chat"
                     asChild
@@ -84,7 +84,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     className={cn(
                       "rounded-lg",
                       pathName.includes("/settings") &&
-                        "bg-primary hover:bg-primary",
+                        "bg-primary hover:bg-primary text-primary-foreground hover:text-primary-foreground",
                     )}
                     aria-label="settings"
                     asChild

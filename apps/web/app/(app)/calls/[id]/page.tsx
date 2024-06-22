@@ -82,22 +82,24 @@ function page() {
         {isVideoOn && (
           <div
             className={cn(
-              "w-full container max-w-md rounded-md flex justify-center items-center overflow-hidden",
+              "absolute -z-10 top-0 bottom-0 left-0 w-full rounded-md flex justify-center items-center p-0 md:p-14",
               `aspect-video`,
               "first:bottom-2 first:border-primary",
             )}
           >
-            <Camera
-              ref={camera}
-              facingMode="user"
-              aspectRatio={16 / 9}
-              errorMessages={{
-                noCameraAccessible: "No camera device accessible.",
-                permissionDenied: "Camera permission denied.",
-                switchCamera: "Switch Camera",
-                canvas: "Canvas",
-              }}
-            />
+            <div className="w-full h-full rounded-md overflow-hidden shadow-md shadow-slate-900">
+              <Camera
+                ref={camera}
+                facingMode="user"
+                aspectRatio={4 / 3}
+                errorMessages={{
+                  noCameraAccessible: "No camera device accessible.",
+                  permissionDenied: "Camera permission denied.",
+                  switchCamera: "Switch Camera",
+                  canvas: "Canvas",
+                }}
+              />
+            </div>
           </div>
         )}
 
